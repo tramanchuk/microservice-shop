@@ -1,0 +1,18 @@
+server:
+  port: 8081
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    env:
+      show-values: always
+    metrics:
+      enabled: true
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/sampleDB
+#    username: root
+#    password: password
+#    driver-class-name: com.mysql.jdbc.Driver
