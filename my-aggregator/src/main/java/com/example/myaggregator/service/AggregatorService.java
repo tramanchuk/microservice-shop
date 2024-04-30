@@ -1,39 +1,93 @@
 package com.example.myaggregator.service;
 
-import com.example.myaggregator.model.AggregatedData;
-import com.example.myaggregator.model.Customer;
-import com.example.myaggregator.model.Order;
-import com.example.myaggregator.model.Product;
+import com.example.myaggregator.exceptions.ErrroProcessingFilter;
+import com.example.myaggregator.exceptions.NotFoundResponseException;
+import com.example.myaggregator.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import java.util.List;
+import reactor.core.publisher.Mono;
 
 @Service
 public class AggregatorService {
     @Autowired
     private WebClient.Builder webClientBuilder;
 
-    public AggregatedData getAggregatedData(Long orderId) {
-        Order order = webClientBuilder.build()
-                .get()
-                .uri("http://localhost:8083/v1/orders/" + orderId)
-                .retrieve()
-                .bodyToMono(Order.class)
-                .block();
+    //@Cacheable(value = "aggregatedData", key = "#customerId")
+    public FullOrderData getFullOrderInformation(Long orderId) {
+//        Order order = webClientBuilder.build()
+//                .get()
+//                .uri("http://localhost:8083/v1/orders/" + orderId)
+//                .retrieve()
+//                .bodyToMono(Order.class)
+//                .block();
+//
+//        if (order == null){
+//            throw new NotFoundResponseException(orderId, Order.class);
+//        }
 
-        Customer customer = webClientBuilder.build()
+        Mono<Customer> customer = webClientBuilder
+                .build()
                 .get()
-                .uri("http://localhost:8081/v1/customers/" + order.getCustomerId())
+                .uri("http://localhost:8081/v1/customers/" + orderId)// + order.getCustomerId())
                 .retrieve()
-                .bodyToMono(Customer.class)
-                .block();
-
-        Product product = webClientBuilder.build()
-                .get()
-                .uri("http://localhost:8082/v1/products" + )
-        return new AggregatedData(customer, product, order);
+                .onStatus(httpStatus -> httpStatus.value() == 404,
+                        error -> Mono.error(new NotFoundResponseException(orderId, Customer.class)))
+                .bodyToMono(Customer.class);
+        return new FullOrderData(null, customer.block());
+//        Set<Long> orderProductsId = order.getLines().stream().map(OrderLine::getProductId).collect(Collectors.toSet());
+//        ProductFilter filter = new ProductFilter(orderProductsId);
+//
+//        Mono<List<Product>> products = webClientBuilder.build()
+//                .post()
+//                .uri("http://localhost:8082/v1/products/")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .bodyValue(filter)
+//                .retrieve()
+//                .bodyToMono(new ParameterizedTypeReference<List<Product>>() {});
+//        return Mono.zip(customer, products)
+//                .map(tuple -> {
+////                    order.getLines().forEach(line -> {
+////                        products.filter(product -> product.getId())
+////                    });
+//                    return new FullOrderData(order, tuple.getT1());
+//                }).block();
     }
+    //@Cacheable(value = "aggregatedData", key = "#customerId")
+//    public AggregatedData getOrders(Long customerId) {
+//
+//        Mono<Customer> customer = webClientBuilder.build()
+//                .get()
+//                .uri("http://localhost:8081/v1/customers/" + customerId)
+//                .retrieve()
+//                .bodyToMono(Customer.class);
+//
+//        Order orders = webClientBuilder.build()
+//                .post()
+//                .uri("http://localhost:8083/v1/orders")
+//                .bodyValue().attribute("customerId", customerId)
+//                .retrieve()
+//                .bodyToMono(Order.class)
+//                .block();
+//
+//        Product product = webClientBuilder.build()
+//                .get()
+//                .uri("http://localhost:8082/v1/products" + )
+//        Mono.zip(
+//                webClientBuilder.build().get().uri("http://product-service/products").retrieve().bodyToMono(Product[].class),
+//                webClientBuilder.build().get().uri("http://order-service/orders").retrieve().bodyToMono(Order[].class)
+//        ).flatMap(tuple2 -> {
+//            // Aggregate the data and create the response object
+//            return null;
+//        });
+//        Mono<Product> product1 = webClientBuilder.build().get().uri("http://product-service/products/{id}", productId).retrieve().bodyToMono(Product.class);
+//        Mono<Customer> customer1 = webClientBuilder.build().get().uri("http://customer-service/customers/{id}", customerId).retrieve().bodyToMono(Customer.class);
+//
+//        return Mono.zip(product, customer)
+//                .map(tuple -> {
+//                    // Create aggregated object here
+//                });
+//        return new AggregatedData(customer, product, order);
+//    }
 }
