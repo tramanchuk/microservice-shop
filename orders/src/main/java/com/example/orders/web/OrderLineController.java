@@ -1,5 +1,6 @@
 package com.example.orders.web;
 
+import com.example.orders.config.logs.Loggable;
 import com.example.orders.converters.OrderLineConverter;
 import com.example.orders.facades.OrderFacade;
 import com.example.orders.model.OrderLine;
@@ -16,7 +17,7 @@ public class OrderLineController {
         this.orderFacade = orderFacade;
         this.orderLineConverter = orderLineConverter;
     }
-
+    @Loggable
     @PostMapping
     public OrderLineDto addOrderLine(@PathVariable Long orderId, @RequestBody OrderLineDto lineDto){
         OrderLine line = this.orderLineConverter.convert(lineDto);

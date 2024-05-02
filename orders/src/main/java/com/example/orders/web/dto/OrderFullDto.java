@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -17,4 +18,5 @@ public class OrderFullDto {
     @NotNull(groups={OnPutUpdate.class, OnPatchUpdate.class, OnCreate.class})
     Long customerId;
     List<OrderLineDto> lines;
+    Date createdDate;
 }

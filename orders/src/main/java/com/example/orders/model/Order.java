@@ -1,10 +1,16 @@
 package com.example.orders.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Objects;
+import java.util.Date;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="my_orders")
 public class Order {
@@ -13,62 +19,20 @@ public class Order {
     Long id;
 
     @Column
-    String customerId;
+    Long customerId;
 
     @OneToMany(cascade = CascadeType.ALL)
     List<OrderLine> lines;
 
-    public Order() {
-    }
+    @Column
+    Date createdDate;
 
-    public Order(String customerId, List<OrderLine> lines) {
-        this.customerId = customerId;
-        this.lines = lines;
-    }
+    @Column
+    Date lastUpdateDate;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public Order(Long id, Long customerId, List<OrderLine> lines) {
         this.id = id;
-    }
-
-    public String getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(String customerId) {
         this.customerId = customerId;
-    }
-
-    public List<OrderLine> getLines() {
-        return lines;
-    }
-
-    public void setLines(List<OrderLine> lines) {
         this.lines = lines;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", customerId='" + customerId + '\'' +
-                ", lines=" + lines +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(id, order.id) && Objects.equals(customerId, order.customerId) && Objects.equals(lines, order.lines);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, customerId, lines);
     }
 }

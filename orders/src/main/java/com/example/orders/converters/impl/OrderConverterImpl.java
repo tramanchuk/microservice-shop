@@ -23,13 +23,15 @@ public class OrderConverterImpl implements OrderConverter {
     public OrderFullDto convert(Order order) {
         return new OrderFullDto(order.getId(),
                 order.getCustomerId(),
-                this.orderLineConverter.convertToDto(order.getLines()));
+                this.orderLineConverter.convertToDto(order.getLines()),
+                order.getCreatedDate());
     }
 
     @Override
     public OrderShortDto convertToShort(Order order) {
         return new OrderShortDto(order.getId(),
-                order.getCustomerId());
+                order.getCustomerId(),
+                order.getCreatedDate());
     }
 
     @Override
