@@ -4,33 +4,37 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="my_orders")
+@Table(name="orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    UUID id;
 
     @Column
     Long customerId;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="order_id")
     List<OrderLine> lines;
 
-    @Column
+    @CreationTimestamp
     Date createdDate;
 
-    @Column
+    @UpdateTimestamp
     Date lastUpdateDate;
 
-    public Order(Long id, Long customerId, List<OrderLine> lines) {
+    public Order(UUID id, Long customerId, List<OrderLine> lines) {
         this.id = id;
         this.customerId = customerId;
         this.lines = lines;

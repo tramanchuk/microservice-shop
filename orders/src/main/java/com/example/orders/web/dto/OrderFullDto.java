@@ -8,13 +8,14 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderFullDto {
     @NotNull(groups = {OnPutUpdate.class, OnPatchUpdate.class})
-    private Long orderId;
+    private UUID orderId;
     @NotNull(groups={OnPutUpdate.class, OnPatchUpdate.class, OnCreate.class})
     Long customerId;
     List<OrderLineDto> lines;

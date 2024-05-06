@@ -5,12 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderShortDto {
-    private Long orderId;
+    private UUID orderId;
     Long customerId;
     Date createdDate;
 }

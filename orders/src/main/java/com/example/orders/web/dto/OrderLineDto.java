@@ -5,12 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderLineDto {
     @NotNull(groups = {OnPutUpdate.class, OnPatchUpdate.class})
-    Long id;
+    UUID id;
     @NotNull(groups={OnPutUpdate.class, OnPatchUpdate.class, OnCreate.class})
     String productId;
     @NotNull(groups={OnPutUpdate.class, OnPatchUpdate.class, OnCreate.class})
