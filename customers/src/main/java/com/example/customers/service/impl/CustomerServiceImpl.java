@@ -7,6 +7,7 @@ import com.example.customers.service.CustomerService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -27,8 +28,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerById(Long id) {
+    public Customer getCustomerById(UUID id) {
         return this.customerRepository.findById(id)
-                .orElseThrow(() -> new NotFoundResponseException(id + "", Customer.class));
+                .orElseThrow(() -> new NotFoundResponseException(id, Customer.class));
     }
 }

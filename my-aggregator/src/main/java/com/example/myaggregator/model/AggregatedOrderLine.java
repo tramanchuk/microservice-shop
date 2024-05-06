@@ -1,16 +1,16 @@
 package com.example.myaggregator.model;
 
+import com.example.myaggregator.model.products.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Objects;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
-    Long id;
-    String name;
-    Double price;
+public class AggregatedOrderLine {
+    String id;
+    Product product;
+    Integer quantity;
 }
+

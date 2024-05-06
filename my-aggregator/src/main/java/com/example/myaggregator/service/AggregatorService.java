@@ -1,10 +1,11 @@
 package com.example.myaggregator.service;
 
-import com.example.myaggregator.exceptions.ErrroProcessingFilter;
 import com.example.myaggregator.exceptions.NotFoundResponseException;
 import com.example.myaggregator.model.*;
+import com.example.myaggregator.model.customers.Customer;
+import com.example.myaggregator.model.orders.Order;
+import com.example.myaggregator.model.products.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -15,28 +16,48 @@ public class AggregatorService {
     private WebClient.Builder webClientBuilder;
 
     //@Cacheable(value = "aggregatedData", key = "#customerId")
-    public FullOrderData getFullOrderInformation(Long orderId) {
-//        Order order = webClientBuilder.build()
-//                .get()
-//                .uri("http://localhost:8083/v1/orders/" + orderId)
-//                .retrieve()
-//                .bodyToMono(Order.class)
-//                .block();
-//
-//        if (order == null){
-//            throw new NotFoundResponseException(orderId, Order.class);
-//        }
-
-        Mono<Customer> customer = webClientBuilder
+    public AggregatedOrder getFullOrderInformation(String orderId) {
+        Order order = getOrder(orderId);
+        Mono<Customer> customer = getCustomer(order.getCustomerId());
+        if (order.getLines().size() <5) {
+            //for orders with a few items
+            order.getLines().stream().parallel().forEach(line ->
+                    line.setProduct(getProduct(line.getProductId()))
+            );
+        }else{
+            //for orders with many lines, combine them in one call to products service
+        }
+        customer.block();
+        return new AggregatedOrder(order, customer.block());
+    }
+    public Order getOrder(String orderId){
+        return webClientBuilder.build()
+                .get()
+                .uri("http://localhost:8083/v1/orders/" + orderId)
+                .retrieve().onStatus(httpStatus -> httpStatus.value() == 404,
+                        error -> Mono.error(new NotFoundResponseException(orderId, Order.class)))
+                .bodyToMono(Order.class).block();
+    }
+    public Mono<Customer> getCustomer(String customerId){
+        return webClientBuilder
                 .build()
                 .get()
-                .uri("http://localhost:8081/v1/customers/" + orderId)// + order.getCustomerId())
+                .uri("http://localhost:8081/v1/customers/" + customerId)
                 .retrieve()
                 .onStatus(httpStatus -> httpStatus.value() == 404,
-                        error -> Mono.error(new NotFoundResponseException(orderId, Customer.class)))
+                        error -> Mono.error(new NotFoundResponseException(customerId, Customer.class)))
                 .bodyToMono(Customer.class);
-        return new FullOrderData(null, customer.block());
-//        Set<Long> orderProductsId = order.getLines().stream().map(OrderLine::getProductId).collect(Collectors.toSet());
+    }
+    public Product getProduct(String productId){
+        return webClientBuilder.build()
+                .get()
+                .uri("http://localhost:8082/v1/products/" + productId)
+                .retrieve().onStatus(httpStatus -> httpStatus.value() == 404,
+                        error -> Mono.error(new NotFoundResponseException(productId, Product.class)))
+                .bodyToMono(Product.class).block();
+    }
+
+    //        Set<Long> orderProductsId = order.getLines().stream().map(OrderLine::getProductId).collect(Collectors.toSet());
 //        ProductFilter filter = new ProductFilter(orderProductsId);
 //
 //        Mono<List<Product>> products = webClientBuilder.build()
@@ -53,7 +74,7 @@ public class AggregatorService {
 ////                    });
 //                    return new FullOrderData(order, tuple.getT1());
 //                }).block();
-    }
+
     //@Cacheable(value = "aggregatedData", key = "#customerId")
 //    public AggregatedData getOrders(Long customerId) {
 //

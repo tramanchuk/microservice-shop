@@ -42,7 +42,7 @@ public class OrderConverterImpl implements OrderConverter {
 
     @Override
     public Order convert(OrderFullDto orderDto) {
-        return new Order(orderDto.getOrderId(), orderDto.getCustomerId(),
+        return new Order(orderDto.getId(), orderDto.getCustomerId(),
                 this.orderLineConverter.convertFromDto(orderDto.getLines()));
     }
 }

@@ -8,6 +8,7 @@ import com.example.orders.services.OrderService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class OrderFacadeImpl implements OrderFacade {
@@ -30,17 +31,17 @@ public class OrderFacadeImpl implements OrderFacade {
     }
 
     @Override
-    public List<Order> getOrders(Long customerId) {
+    public List<Order> getOrders(String customerId) {
         return this.orderService.getOrders(customerId);
     }
 
     @Override
-    public Order getOrderById(Long id) {
+    public Order getOrderById(UUID id) {
         return this.orderService.getOrderById(id);
     }
 
     @Override
-    public OrderLine addOrderLine(Long orderId, OrderLine line) {
+    public OrderLine addOrderLine(UUID orderId, OrderLine line) {
         Order order = this.orderService.getOrderById(orderId);
         return addLine(order, line);
     }

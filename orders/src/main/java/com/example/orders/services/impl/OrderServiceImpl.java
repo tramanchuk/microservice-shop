@@ -7,6 +7,7 @@ import com.example.orders.services.OrderService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -27,12 +28,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getOrders(Long customerId) {
+    public List<Order> getOrders(String customerId) {
         return orderRepository.findByCustomerId(customerId);
     }
 
     @Override
-    public Order getOrderById(Long id) {
+    public Order getOrderById(UUID id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> new NotFoundResponseException(id, Order.class));
     }

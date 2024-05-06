@@ -15,9 +15,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class OrderFullDto {
     @NotNull(groups = {OnPutUpdate.class, OnPatchUpdate.class})
-    private UUID orderId;
+    private UUID id;
     @NotNull(groups={OnPutUpdate.class, OnCreate.class})
-    Long customerId;
+    String customerId;
     List<OrderLineDto> lines;
     Date createdDate;
 }

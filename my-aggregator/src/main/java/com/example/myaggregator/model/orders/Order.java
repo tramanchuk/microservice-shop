@@ -1,15 +1,14 @@
-package com.example.myaggregator.model;
+package com.example.myaggregator.model.orders;
 
 import lombok.*;
 
-import java.util.Objects;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {
-    Long id;
+    String id;
     String customerId;
     List<OrderLine> lines;
 }

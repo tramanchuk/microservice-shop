@@ -6,7 +6,7 @@ docker exec -it pg-shop-db bash
 
 psql -h localhost -U upostgres -d shop-db -f /var/lib/postgresql/data1/schema_customers.sql
 psql -h localhost -U upostgres -d shop-db -f /var/lib/postgresql/data1/data_customers.sql
-psql -h localhost -U upostgres -d shop-db -f /var/lib/postgresql/data1/schema_orders.sql
-psql -h localhost -U upostgres -d shop-db -f /var/lib/postgresql/data1/data_orders.sql
 psql -h localhost -U upostgres -d shop-db -f /var/lib/postgresql/data1/schema_products.sql
 psql -h localhost -U upostgres -d shop-db -f /var/lib/postgresql/data1/data_products.sql
+psql -h localhost -U upostgres -d shop-db -f /var/lib/postgresql/data1/schema_orders.sql
+psql -h localhost -U upostgres -d shop-db -f /var/lib/postgresql/data1/data_orders.sql

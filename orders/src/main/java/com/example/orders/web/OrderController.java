@@ -9,6 +9,7 @@ import com.example.orders.web.dto.OrderShortDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/orders")
@@ -23,7 +24,7 @@ public class OrderController {
 
     @Loggable
     @GetMapping("/{orderId}")
-    public OrderFullDto getOrder(@PathVariable Long orderId){
+    public OrderFullDto getOrder(@PathVariable UUID orderId){
         Order order = this.orderFacade.getOrderById(orderId);
         return this.orderConverter.convert(order);
     }

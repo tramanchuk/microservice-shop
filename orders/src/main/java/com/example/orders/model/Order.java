@@ -22,7 +22,7 @@ public class Order {
     UUID id;
 
     @Column
-    Long customerId;
+    String customerId;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="order_id")
@@ -34,7 +34,7 @@ public class Order {
     @UpdateTimestamp
     Date lastUpdateDate;
 
-    public Order(UUID id, Long customerId, List<OrderLine> lines) {
+    public Order(UUID id, String customerId, List<OrderLine> lines) {
         this.id = id;
         this.customerId = customerId;
         this.lines = lines;

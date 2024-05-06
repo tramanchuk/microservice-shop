@@ -1,4 +1,4 @@
-package com.example.myaggregator.model;
+package com.example.myaggregator.model.products;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,9 +9,8 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customer {
-    Long id;
-    String firstName;
-    String secondName;
+public class Product {
+    String id;
+    String name;
+    Double price;
 }
-

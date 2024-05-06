@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface OrderRepository extends CrudRepository<Order, UUID> {
-    List<Order> findByCustomerId(Long customerId);
+    List<Order> findByCustomerId(String customerId);
 }

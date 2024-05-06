@@ -5,12 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.ErrorResponseException;
 
 import java.util.Locale;
+import java.util.UUID;
 
 public class NotFoundResponseException extends ErrorResponseException {
 
-    private final Long id;
+    private final UUID id;
     private final Class objectClass;
-    public NotFoundResponseException(Long id, Class<?> objectClass) {
+    public NotFoundResponseException(UUID id, Class<?> objectClass) {
         super(HttpStatus.NOT_FOUND);
         this.id = id;
         this.objectClass = objectClass;

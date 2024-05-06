@@ -5,6 +5,7 @@ import com.example.customers.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/customers")
@@ -28,7 +29,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}")
-    public Customer getCustomerById(@PathVariable Long customerId){
+    public Customer getCustomerById(@PathVariable UUID customerId){
         return this.customerService.getCustomerById(customerId);
     }
 

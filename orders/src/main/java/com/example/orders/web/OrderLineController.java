@@ -7,6 +7,8 @@ import com.example.orders.model.OrderLine;
 import com.example.orders.web.dto.OrderLineDto;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/v1/orders/{orderId}/orderLines")
 public class OrderLineController {
@@ -19,7 +21,7 @@ public class OrderLineController {
     }
     @Loggable
     @PostMapping
-    public OrderLineDto addOrderLine(@PathVariable Long orderId, @RequestBody OrderLineDto lineDto){
+    public OrderLineDto addOrderLine(@PathVariable UUID orderId, @RequestBody OrderLineDto lineDto){
         OrderLine line = this.orderLineConverter.convert(lineDto);
         line = this.orderFacade.addOrderLine(orderId, line);
         return this.orderLineConverter.convert(line);

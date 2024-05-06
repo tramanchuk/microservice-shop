@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderShortDto {
-    private UUID orderId;
-    Long customerId;
+    private UUID id;
+    String customerId;
     Date createdDate;
 }

@@ -1,5 +1,6 @@
-package com.example.myaggregator.model;
+package com.example.myaggregator.model.orders;
 
+import com.example.myaggregator.model.products.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,9 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderLine {
-    Long id;
-    Long productId;
+    String id;
+    String productId;
     Integer quantity;
+    Product product;
 }
 
