@@ -1,23 +1,23 @@
-package com.example.orders.web.dto;
+package com.example.products.web.dto;
 
-import com.example.orders.model.OrderLine;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderFullDto {
+public class ProductDto {
     @NotNull(groups = {OnPutUpdate.class, OnPatchUpdate.class})
-    private UUID orderId;
+    UUID id;
     @NotNull(groups={OnPutUpdate.class, OnCreate.class})
-    Long customerId;
-    List<OrderLineDto> lines;
+    String name;
+    @NotNull(groups={OnPutUpdate.class, OnCreate.class})
+    Double price;
     Date createdDate;
+    Date lastUpdateDate;
 }

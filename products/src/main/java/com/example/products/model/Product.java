@@ -1,72 +1,36 @@
 package com.example.products.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.Objects;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table(name="products")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
-
+    @GeneratedValue(strategy = GenerationType.UUID)
+    UUID id;
     @Column
     String name;
-
     @Column
     Double price;
+    @CreationTimestamp
+    Date createdDate;
+    @UpdateTimestamp
+    Date lastUpdateDate;
 
-    public Product() {
-    }
-
-    public Product(String name, Double price) {
+    public Product(UUID id, String name, Double price) {
         this.name = name;
         this.price = price;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return Objects.equals(id, product.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

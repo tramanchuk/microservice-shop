@@ -13,8 +13,8 @@ import java.util.UUID;
 public class OrderLineDto {
     @NotNull(groups = {OnPutUpdate.class, OnPatchUpdate.class})
     UUID id;
-    @NotNull(groups={OnPutUpdate.class, OnPatchUpdate.class, OnCreate.class})
+    @NotNull(groups={OnPutUpdate.class, OnCreate.class})
     String productId;
-    @NotNull(groups={OnPutUpdate.class, OnPatchUpdate.class, OnCreate.class})
+    @NotNull(groups={OnPutUpdate.class, OnCreate.class})
     Integer quantity;
 }
