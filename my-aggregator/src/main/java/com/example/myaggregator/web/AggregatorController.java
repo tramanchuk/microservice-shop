@@ -2,10 +2,7 @@ package com.example.myaggregator.web;
 
 import com.example.myaggregator.model.AggregatedOrder;
 import com.example.myaggregator.service.AggregatorService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/aggregate")
@@ -16,7 +13,7 @@ public class AggregatorController {
         this.aggregatorService = aggregatorService;
     }
 
-    @GetMapping("orders/{id}")
+    @GetMapping("/orders/{id}")
     public AggregatedOrder aggregate(@PathVariable String id) {
         return aggregatorService.getFullOrderInformation(id);
     }
