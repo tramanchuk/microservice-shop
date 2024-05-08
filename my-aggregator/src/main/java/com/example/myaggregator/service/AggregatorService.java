@@ -6,12 +6,17 @@ import com.example.myaggregator.model.customers.Customer;
 import com.example.myaggregator.model.orders.Order;
 import com.example.myaggregator.model.products.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
 public class AggregatorService {
+
+    @Value( "${gateway.url}" )
+    private String path;
+
     @Autowired
     private WebClient.Builder webClientBuilder;
 
@@ -33,7 +38,7 @@ public class AggregatorService {
     public Order getOrder(String orderId){
         return webClientBuilder.build()
                 .get()
-                .uri("http://localhost:8083/v1/orders/" + orderId)
+                .uri(path + "/v1/orders/" + orderId)
                 .retrieve().onStatus(httpStatus -> httpStatus.value() == 404,
                         error -> Mono.error(new NotFoundResponseException(orderId, Order.class)))
                 .bodyToMono(Order.class).block();
@@ -42,7 +47,7 @@ public class AggregatorService {
         return webClientBuilder
                 .build()
                 .get()
-                .uri("http://localhost:8081/v1/customers/" + customerId)
+                .uri(path + "/v1/customers/" + customerId)
                 .retrieve()
                 .onStatus(httpStatus -> httpStatus.value() == 404,
                         error -> Mono.error(new NotFoundResponseException(customerId, Customer.class)))
@@ -51,7 +56,7 @@ public class AggregatorService {
     public Product getProduct(String productId){
         return webClientBuilder.build()
                 .get()
-                .uri("http://localhost:8082/v1/products/" + productId)
+                .uri(path + "/v1/products/" + productId)
                 .retrieve().onStatus(httpStatus -> httpStatus.value() == 404,
                         error -> Mono.error(new NotFoundResponseException(productId, Product.class)))
                 .bodyToMono(Product.class).block();

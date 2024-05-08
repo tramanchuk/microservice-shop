@@ -5,7 +5,7 @@ import com.example.myaggregator.service.AggregatorService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/aggregate")
+@RequestMapping("/v1/aggregate/orders")
 public class AggregatorController {
     private final AggregatorService aggregatorService;
 
@@ -13,8 +13,12 @@ public class AggregatorController {
         this.aggregatorService = aggregatorService;
     }
 
-    @GetMapping("/orders/{id}")
-    public AggregatedOrder aggregate(@PathVariable String id) {
+    @GetMapping("/{id}")
+    public AggregatedOrder aggregateOrder(@PathVariable String id) {
         return aggregatorService.getFullOrderInformation(id);
+    }
+    @GetMapping
+    public AggregatedOrder aggregateOrders() {
+        return null;
     }
 }

@@ -4,18 +4,22 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: customer_route
-          uri: http://localhost:8081
+        - id: customer-service
+          uri: lb://customer-service
           predicates:
             - Path=/v1/customers/**
-        - id: PRODUCT-SERVICE
-          uri: lb://PRODUCT-SERVICE
+        - id: product-service
+          uri: lb://product-service
           predicates:
             - Path=/v1/products/**
-        - id: order_route
-          uri: http://localhost:8083
+        - id: order-service
+          uri: lb://order-service
           predicates:
             - Path=/v1/orders/**
+        - id: order-aggregator
+          uri: lb://order-aggregator
+          predicates:
+            - Path=/v1/aggregate/orders/**
 eureka:
   client:
     service-url:
