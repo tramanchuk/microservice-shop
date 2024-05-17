@@ -1,28 +1,71 @@
+logging:
+  level:
+    reactor:
+      netty: INFO
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
 spring:
   application:
     name: my-gateway
   cloud:
     gateway:
+      httpclient:
+        wiretap: true
+      httpserver:
+        wiretap: true
+      discovery:
+        locator:
+          enabled: true # use netflix eureka discovery service
       routes:
         - id: customer-service
           uri: lb://customer-service
           predicates:
             - Path=/v1/customers/**
+#          filters:
+#            - TokenRelay=
+#            - RemoveRequestHeader=Cookie
         - id: product-service
           uri: lb://product-service
           predicates:
             - Path=/v1/products/**
+#          filters:
+#            - TokenRelay=
+#            - RemoveRequestHeader=Cookie
         - id: order-service
           uri: lb://order-service
           predicates:
             - Path=/v1/orders/**
+#          filters:
+#            - TokenRelay=
+#            - RemoveRequestHeader=Cookie
         - id: order-aggregator
           uri: lb://order-aggregator
           predicates:
             - Path=/v1/aggregate/orders/**
+#          filters:
+#            - TokenRelay=
+#            - RemoveRequestHeader=Cookie
 eureka:
   client:
+#    register-with-eureka: true # register him self at eureka
+#    fetch-registry: true # pull down a local copy of the registries
     service-url:
       defaultZone: http://localhost:8761/eureka
   instance:
     ip-address: localhost
+#security:
+#  oauth2:
+#    client:
+#      registration:
+#        gateway:
+#          provider: spring
+#          client-id: gateway
+#          client-secret: secret
+#          authorization-grant-type: authorization_code
+#          redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+#          scope: openid,resource.read
+#      provider:
+#        spring:
+#          issuer-uri: http://localhost:9000
