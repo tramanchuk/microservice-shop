@@ -17,14 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AggregatorProductService {
+public class ProductService {
     @Autowired
     private WebClient.Builder webClientBuilder;
     private final CircuitBreaker remittanceServiceCircuitBreaker;
     private final Retry remittanceServiceRetry;
     private final TimeLimiter remittanceServiceTimeLimiter;
 
-    public AggregatorProductService(CircuitBreaker remittanceServiceCircuitBreaker, Retry remittanceServiceRetry, TimeLimiter remittanceServiceTimeLimiter) {
+    public ProductService(CircuitBreaker remittanceServiceCircuitBreaker, Retry remittanceServiceRetry, TimeLimiter remittanceServiceTimeLimiter) {
         this.remittanceServiceCircuitBreaker = remittanceServiceCircuitBreaker;
         this.remittanceServiceRetry = remittanceServiceRetry;
         this.remittanceServiceTimeLimiter = remittanceServiceTimeLimiter;

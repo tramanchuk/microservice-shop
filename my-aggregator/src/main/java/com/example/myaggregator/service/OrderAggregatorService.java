@@ -1,33 +1,33 @@
 package com.example.myaggregator.service;
 
 import com.example.myaggregator.exceptions.NotFoundResponseException;
-import com.example.myaggregator.model.*;
 import com.example.myaggregator.model.customers.Customer;
 import com.example.myaggregator.model.orders.Order;
 import com.example.myaggregator.model.products.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
-public class AggregatorService {
+public class OrderAggregatorService {
 
     //@Value( "${gateway.url}" )
     private String path;
-    private final AggregatorProductService productService;
+    private final ProductService productService;
+    private final CustomerService customerService;
 
     @Autowired
     private WebClient.Builder webClientBuilder;
 
-    public AggregatorService(AggregatorProductService productService) {
+    public OrderAggregatorService(ProductService productService, CustomerService customerService) {
         this.productService = productService;
+        this.customerService = customerService;
     }
 
     //@Cacheable(value = "aggregatedData", key = "#customerId")
-    public Mono<Product> getFullOrderInformation(String orderId) {
-        return this.productService.getProductById(orderId);
+    public Mono<Customer> getFullOrderInformation(String orderId) {
+        return this.customerService.getCustomerById(orderId);
     }
 //    public AggregatedOrder getFullOrderInformation(String orderId) {
 //        Order order = getOrder(orderId);

@@ -1,7 +1,7 @@
 package com.example.myaggregator.web;
 
 import com.example.myaggregator.model.products.Product;
-import com.example.myaggregator.service.AggregatorProductService;
+import com.example.myaggregator.service.ProductService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,9 +11,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/aggregator/products")
 public class CBPRoductController {
-    private final AggregatorProductService productService;
+    private final ProductService productService;
 
-    public CBPRoductController(AggregatorProductService productService) {
+    public CBPRoductController(ProductService productService) {
         this.productService = productService;
     }
 
