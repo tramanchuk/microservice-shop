@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 @Service
 public class AggregatorService {
 
-    @Value( "${gateway.url}" )
+    //@Value( "${gateway.url}" )
     private String path;
 
     @Autowired

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
+import io.vavr.control.Try;
 
 @RestController
 @RequestMapping("/v1/products")
@@ -42,5 +43,11 @@ public class ProductController {
         Product product = this.productConverter.convert(productDto);
         this.productFacade.save(product);
         return this.productConverter.convert(product);
+    }
+
+    @GetMapping("/failure")
+    public List<ProductDto> getProductstFailure(){
+        Try.run(() -> Thread.sleep(5000));
+        return getAllProducts();
     }
 }
