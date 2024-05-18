@@ -32,7 +32,7 @@ public class ProductController {
     @Loggable
     @GetMapping("/{id}")
     public ProductDto getProductById(@PathVariable UUID id){
-        if (UUID.fromString("570ed148-64e2-480e-9212-1af6a910490e").equals(id)){
+        if (UUID.fromString("7b84df18-3483-4ef4-a06e-08d8a4e31a5b").equals(id)){
             Try.run(() -> Thread.sleep(5000));
         }
         Product product = this.productFacade.getProductById(id);

@@ -1,9 +1,11 @@
 package com.example.myaggregator.service;
 
 import com.example.myaggregator.exceptions.NotFoundResponseException;
+import com.example.myaggregator.model.AggregatedOrder;
 import com.example.myaggregator.model.customers.Customer;
 import com.example.myaggregator.model.orders.Order;
 import com.example.myaggregator.model.products.Product;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -16,58 +18,31 @@ public class OrderAggregatorService {
     private String path;
     private final ProductService productService;
     private final CustomerService customerService;
+    private final OrderService orderService;
 
     @Autowired
     private WebClient.Builder webClientBuilder;
 
-    public OrderAggregatorService(ProductService productService, CustomerService customerService) {
+    public OrderAggregatorService(ProductService productService, CustomerService customerService, OrderService orderService) {
         this.productService = productService;
         this.customerService = customerService;
+        this.orderService = orderService;
     }
 
     //@Cacheable(value = "aggregatedData", key = "#customerId")
-    public Mono<Customer> getFullOrderInformation(String orderId) {
-        return this.customerService.getCustomerById(orderId);
-    }
-//    public AggregatedOrder getFullOrderInformation(String orderId) {
-//        Order order = getOrder(orderId);
-//        Mono<Customer> customer = getCustomer(order.getCustomerId());
-//        if (order.getLines().size() <5) {
-//            //for orders with a few items
-//            order.getLines().stream().parallel().forEach(line ->
-//                    line.setProduct(getProduct(line.getProductId()))
-//            );
-//        }else{
-//            //for orders with many lines, combine them in one call to products service
-//        }
-//        customer.block();
-//        return new AggregatedOrder(order, customer.block());
-//    }
-    public Order getOrder(String orderId){
-        return webClientBuilder.build()
-                .get()
-                .uri(path + "/v1/orders/" + orderId)
-                .retrieve().onStatus(httpStatus -> httpStatus.value() == 404,
-                        error -> Mono.error(new NotFoundResponseException(orderId, Order.class)))
-                .bodyToMono(Order.class).block();
-    }
-    public Mono<Customer> getCustomer(String customerId){
-        return webClientBuilder
-                .build()
-                .get()
-                .uri(path + "/v1/customers/" + customerId)
-                .retrieve()
-                .onStatus(httpStatus -> httpStatus.value() == 404,
-                        error -> Mono.error(new NotFoundResponseException(customerId, Customer.class)))
-                .bodyToMono(Customer.class);
-    }
-    public Product getProduct(String productId){
-        return webClientBuilder.build()
-                .get()
-                .uri(path + "/v1/products/" + productId)
-                .retrieve().onStatus(httpStatus -> httpStatus.value() == 404,
-                        error -> Mono.error(new NotFoundResponseException(productId, Product.class)))
-                .bodyToMono(Product.class).block();
+    public AggregatedOrder getFullOrderInformation(String orderId) {
+        Order order = this.orderService.getOrderById(orderId).block();
+        Mono<Customer> customer = this.customerService.getCustomerById(order.getCustomerId());
+        if (order.getLines().size() <5) {
+            //for orders with a few items
+            order.getLines().stream().parallel().forEach(line ->
+                    line.setProduct(this.productService.getProductById(line.getProductId()).block())
+            );
+        }else{
+            //for orders with many lines, combine them in one call to products service
+        }
+        customer.block();
+        return new AggregatedOrder(order, customer.block());
     }
 
     //        Set<Long> orderProductsId = order.getLines().stream().map(OrderLine::getProductId).collect(Collectors.toSet());

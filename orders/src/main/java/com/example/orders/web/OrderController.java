@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
+import io.vavr.control.Try;
 
 @RestController
 @RequestMapping("/v1/orders")
@@ -25,6 +26,9 @@ public class OrderController {
     @Loggable
     @GetMapping("/{orderId}")
     public OrderFullDto getOrder(@PathVariable UUID orderId){
+        if (UUID.fromString("570ed148-64e2-480e-9212-1af6a910490e").equals(orderId)){
+            Try.run(() -> Thread.sleep(5000));
+        }
         Order order = this.orderFacade.getOrderById(orderId);
         return this.orderConverter.convert(order);
     }

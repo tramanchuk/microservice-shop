@@ -2,6 +2,7 @@ package com.example.myaggregator.web;
 
 import com.example.myaggregator.model.AggregatedOrder;
 import com.example.myaggregator.model.customers.Customer;
+import com.example.myaggregator.model.orders.Order;
 import com.example.myaggregator.service.OrderAggregatorService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -16,7 +17,7 @@ public class AggregatorController {
     }
 
     @GetMapping("/{id}")
-    public Mono<Customer> aggregateOrder(@PathVariable String id) {
+    public AggregatedOrder aggregateOrder(@PathVariable String id) {
         return orderAggregatorService.getFullOrderInformation(id);
     }
     @GetMapping
