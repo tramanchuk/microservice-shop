@@ -16,7 +16,7 @@ public class AggregatorController {
     }
 
     @GetMapping("/{id}")
-    public AggregatedOrder aggregateOrder(@PathVariable String id) {
+    public Mono<Product> aggregateOrder(@PathVariable String id) {
         return aggregatorService.getFullOrderInformation(id);
     }
     @GetMapping

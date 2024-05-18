@@ -19,7 +19,7 @@ public class CBPRoductController {
 
     @GetMapping("/success")
     public Mono<List<Product>> getProductsSuccess() {
-        return this.productService.getProductsSucessfully();
+        return this.productService.getProducts();
     }
     @GetMapping("/failure")
     public Mono<List<Product>> getProductsFailed() {

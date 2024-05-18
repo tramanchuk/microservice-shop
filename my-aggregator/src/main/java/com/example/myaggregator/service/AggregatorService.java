@@ -16,25 +16,33 @@ public class AggregatorService {
 
     //@Value( "${gateway.url}" )
     private String path;
+    private final AggregatorProductService productService;
 
     @Autowired
     private WebClient.Builder webClientBuilder;
 
-    //@Cacheable(value = "aggregatedData", key = "#customerId")
-    public AggregatedOrder getFullOrderInformation(String orderId) {
-        Order order = getOrder(orderId);
-        Mono<Customer> customer = getCustomer(order.getCustomerId());
-        if (order.getLines().size() <5) {
-            //for orders with a few items
-            order.getLines().stream().parallel().forEach(line ->
-                    line.setProduct(getProduct(line.getProductId()))
-            );
-        }else{
-            //for orders with many lines, combine them in one call to products service
-        }
-        customer.block();
-        return new AggregatedOrder(order, customer.block());
+    public AggregatorService(AggregatorProductService productService) {
+        this.productService = productService;
     }
+
+    //@Cacheable(value = "aggregatedData", key = "#customerId")
+    public Mono<Product> getFullOrderInformation(String orderId) {
+        return this.productService.getProductById(orderId);
+    }
+//    public AggregatedOrder getFullOrderInformation(String orderId) {
+//        Order order = getOrder(orderId);
+//        Mono<Customer> customer = getCustomer(order.getCustomerId());
+//        if (order.getLines().size() <5) {
+//            //for orders with a few items
+//            order.getLines().stream().parallel().forEach(line ->
+//                    line.setProduct(getProduct(line.getProductId()))
+//            );
+//        }else{
+//            //for orders with many lines, combine them in one call to products service
+//        }
+//        customer.block();
+//        return new AggregatedOrder(order, customer.block());
+//    }
     public Order getOrder(String orderId){
         return webClientBuilder.build()
                 .get()

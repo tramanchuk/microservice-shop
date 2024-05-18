@@ -32,6 +32,9 @@ public class ProductController {
     @Loggable
     @GetMapping("/{id}")
     public ProductDto getProductById(@PathVariable UUID id){
+        if (UUID.fromString("570ed148-64e2-480e-9212-1af6a910490e").equals(id)){
+            Try.run(() -> Thread.sleep(5000));
+        }
         Product product = this.productFacade.getProductById(id);
         return this.productConverter.convert(product);
     }

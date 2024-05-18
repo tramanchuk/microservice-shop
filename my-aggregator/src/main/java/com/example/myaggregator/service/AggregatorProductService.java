@@ -1,7 +1,5 @@
 package com.example.myaggregator.service;
 
-import com.example.myaggregator.exceptions.NotFoundResponseException;
-import com.example.myaggregator.exceptions.ServiceUnavailableException;
 import com.example.myaggregator.model.products.Product;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.reactor.circuitbreaker.operator.CircuitBreakerOperator;
@@ -16,7 +14,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -28,11 +25,21 @@ public class AggregatorProductService {
     private final TimeLimiter remittanceServiceTimeLimiter;
 
     public AggregatorProductService(CircuitBreaker remittanceServiceCircuitBreaker, Retry remittanceServiceRetry, TimeLimiter remittanceServiceTimeLimiter) {
-         this.remittanceServiceCircuitBreaker = remittanceServiceCircuitBreaker;
+        this.remittanceServiceCircuitBreaker = remittanceServiceCircuitBreaker;
         this.remittanceServiceRetry = remittanceServiceRetry;
         this.remittanceServiceTimeLimiter = remittanceServiceTimeLimiter;
     }
-    public Mono<List<Product>> getProductsSucessfully(){
+    public Mono<Product> getProductById(String id){
+        return webClientBuilder.build()
+                .get()
+                .uri("http://localhost:8082/v1/products/" + id)
+                .retrieve()
+                .bodyToMono(Product.class)
+                .transformDeferred(CircuitBreakerOperator.of(remittanceServiceCircuitBreaker))
+                .transformDeferred(RetryOperator.of(remittanceServiceRetry))
+                .transformDeferred(TimeLimiterOperator.of(remittanceServiceTimeLimiter));
+    }
+    public Mono<List<Product>> getProducts(){
         return webClientBuilder.build()
                 .get()
                 .uri("http://localhost:8082/v1/products")
@@ -51,7 +58,7 @@ public class AggregatorProductService {
                 .bodyToMono(new ParameterizedTypeReference<List<Product>>() {})
                 .transformDeferred(CircuitBreakerOperator.of(remittanceServiceCircuitBreaker))
                 .transformDeferred(RetryOperator.of(remittanceServiceRetry))
-                .transformDeferred(TimeLimiterOperator.of(remittanceServiceTimeLimiter))
-                .onErrorReturn(new ArrayList<Product>());
+                .transformDeferred(TimeLimiterOperator.of(remittanceServiceTimeLimiter));
+                //.onErrorReturn(new ArrayList<Product>());
     }
 }
