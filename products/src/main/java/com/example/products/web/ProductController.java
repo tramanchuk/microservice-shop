@@ -5,12 +5,19 @@ import com.example.products.converters.ProductConverter;
 import com.example.products.facades.ProductFacade;
 import com.example.products.model.Product;
 import com.example.products.web.dto.ProductDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 import io.vavr.control.Try;
 
+@Tag(name = "Products", description = "Product management APIs")
 @RestController
 @RequestMapping("/v1/products")
 public class ProductController {
@@ -23,12 +30,27 @@ public class ProductController {
         this.productConverter = productConverter;
     }
 
+    @Operation(
+            summary = "Retrieve all products",
+            description = "Retrieve list of products without sorting, filters, pagination",
+            tags = { "Products"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = List.class), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
     @Loggable
     @GetMapping
     public List<ProductDto> getAllProducts(){
         List<Product> products = this.productFacade.getProducts();
         return this.productConverter.convert(products);
     }
+    @Operation(
+            summary = "Retrieve Product by Id",
+            tags = { "Products"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = ProductDto.class), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+
     @Loggable
     @GetMapping("/{id}")
     public ProductDto getProductById(@PathVariable UUID id){
@@ -38,7 +60,13 @@ public class ProductController {
         Product product = this.productFacade.getProductById(id);
         return this.productConverter.convert(product);
     }
-
+    @Operation(
+            summary = "Create a Product",
+            tags = { "Products"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = ProductDto.class), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
     @Loggable
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -47,9 +75,17 @@ public class ProductController {
         this.productFacade.save(product);
         return this.productConverter.convert(product);
     }
+    @Operation(
+            summary = "Example of getting all products with delay",
+            description = "Return all products in 5 seconds",
+            tags = { "Products"})
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = List.class), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema()) }),
+            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 
     @GetMapping("/failure")
-    public List<ProductDto> getProductstFailure(){
+    public List<ProductDto> getAllProductsWithDelay(){
         Try.run(() -> Thread.sleep(5000));
         return getAllProducts();
     }
