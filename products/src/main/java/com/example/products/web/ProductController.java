@@ -12,6 +12,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
+//import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
@@ -60,6 +63,7 @@ public class ProductController {
         Product product = this.productFacade.getProductById(id);
         return this.productConverter.convert(product);
     }
+    //@PreAuthorize("hasRole('ADMIN')")
     @Operation(
             summary = "Create a Product",
             tags = { "Products"})
@@ -88,5 +92,11 @@ public class ProductController {
     public List<ProductDto> getAllProductsWithDelay(){
         Try.run(() -> Thread.sleep(5000));
         return getAllProducts();
+    }
+
+    @GetMapping("/me")
+    public Object getMe() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
     }
 }

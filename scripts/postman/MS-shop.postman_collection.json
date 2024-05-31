@@ -10,7 +10,44 @@
 			"name": "Create Product",
 			"request": {
 				"auth": {
-					"type": "noauth"
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "openid offline_access",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "auth_token2",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:8088/realms/ms-shop-realm/protocol/openid-connect/token",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "M0hUFRLdvZGtmAxAnqtONuDSSOttEcC9",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "gateway-service",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
 				},
 				"method": "POST",
 				"header": [],
@@ -48,42 +85,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    name: \"product1\",\r\n    price: \"200\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/v1/products",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"v1",
-						"products"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Customer",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    name: \"product1\",\r\n    price: \"200\"\r\n}",
+					"raw": "{\r\n    \"firstName\": \"Tatsiana2\",\r\n    \"secondName\": \"Ramanchuk2\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -106,10 +108,65 @@
 			"response": []
 		},
 		{
+			"name": "Get Customer",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "ru-RU",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    name: \"product1\",\r\n    price: \"200\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/v1/customers/b34d8b53-40f7-4544-bdff-67881d64f56f",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"v1",
+						"customers",
+						"b34d8b53-40f7-4544-bdff-67881d64f56f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get orders",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/v1/orders/6d7eda82-75b1-429e-a929-06b1bf60da02",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"v1",
+						"orders",
+						"6d7eda82-75b1-429e-a929-06b1bf60da02"
+					]
+				}
 			},
 			"response": []
 		},
@@ -128,12 +185,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/v1/orders",
+					"raw": "http://localhost:8082/v1/orders",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "8082",
 					"path": [
 						"v1",
 						"orders"
@@ -163,7 +220,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/v1/aggregate/12",
+					"raw": "http://localhost:8080/v1/aggregate/orders/6d7eda82-75b1-429e-a929-06b1bf60da02",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -172,7 +229,8 @@
 					"path": [
 						"v1",
 						"aggregate",
-						"12"
+						"orders",
+						"6d7eda82-75b1-429e-a929-06b1bf60da02"
 					]
 				}
 			},
@@ -181,18 +239,119 @@
 		{
 			"name": "Get Products",
 			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "openid offline_access",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "auth_token2",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:8088/realms/ms-shop-realm/protocol/openid-connect/token",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "M0hUFRLdvZGtmAxAnqtONuDSSOttEcC9",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "gateway-service",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8082/v1/products",
+					"raw": "http://localhost:8080/v1/products",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8082",
+					"port": "8080",
 					"path": [
 						"v1",
 						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get use information",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "tokenName",
+							"value": "auth_token3",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "openid offline_access",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:8088/realms/ms-shop-realm/protocol/openid-connect/token",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "M0hUFRLdvZGtmAxAnqtONuDSSOttEcC9",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "gateway-service",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/products/me",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"products",
+						"me"
 					]
 				}
 			},

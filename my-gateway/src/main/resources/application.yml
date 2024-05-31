@@ -47,6 +47,34 @@ spring:
 #          filters:
 #            - TokenRelay=
 #            - RemoveRequestHeader=Cookie
+  security:
+    oauth2:
+#      client:
+#        gateway-service:
+#          client-id: gateway-service
+#          client-secret: M0hUFRLdvZGtmAxAnqtONuDSSOttEcC9
+#          scope: openid profile roles
+#          authorization-grant-type: authorization_code или client_credentials
+#          redirect-uri: http://localhost:8080/login/oauth2/code/gateway-service
+#          issuer-uri: http://localhost:8088/realms/ms-shop-realm
+#        registration:
+#          keycloak:
+#            client-id: gateway-service
+#            client-secret: M0hUFRLdvZGtmAxAnqtONuDSSOttEcC9
+#            scope: openid profile
+#            authorization-grant-type: authorization_code
+#        provider:
+#          keycloak:
+#            issuer-uri: http://localhost:8088/realms/ms-shop-realm
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8088/realms/ms-shop-realm
+#keycloak:
+#  server-url: http://localhost:8088/auth
+#  realm: ms-shop-realm
+#  username: admin
+#  password: admin
+
 eureka:
   client:
 #    register-with-eureka: true # register him self at eureka
