@@ -1,4 +1,4 @@
-package com.example.mygateway.filters;
+package com.example.backoffice.edge.filters;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

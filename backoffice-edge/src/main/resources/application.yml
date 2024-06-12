@@ -8,7 +8,7 @@ logging:
           gateway: TRACE
 spring:
   application:
-    name: my-gateway
+    name: backoffice-edge
   cloud:
     gateway:
       httpclient:
@@ -23,30 +23,18 @@ spring:
           uri: lb://customer-service
           predicates:
             - Path=/v1/customers/**
-#          filters:
-#            - TokenRelay=
-#            - RemoveRequestHeader=Cookie
         - id: product-service
           uri: lb://product-service
           predicates:
             - Path=/v1/products/**
-#          filters:
-#            - TokenRelay=
-#            - RemoveRequestHeader=Cookie
         - id: order-service
           uri: lb://order-service
           predicates:
             - Path=/v1/orders/**
-#          filters:
-#            - TokenRelay=
-#            - RemoveRequestHeader=Cookie
         - id: order-aggregator
           uri: lb://order-aggregator
           predicates:
             - Path=/v1/aggregate/orders/**
-#          filters:
-#            - TokenRelay=
-#            - RemoveRequestHeader=Cookie
   security:
     oauth2:
 #      client:
@@ -68,7 +56,7 @@ spring:
 #            issuer-uri: http://localhost:8088/realms/ms-shop-realm
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8088/realms/ms-shop-realm
+          issuer-uri: http://localhost:8088/realms/ms-shop-realm4
 #keycloak:
 #  server-url: http://localhost:8088/auth
 #  realm: ms-shop-realm

@@ -1,4 +1,4 @@
-package com.example.mygateway.filters;
+package com.example.backoffice.edge.filters;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import static com.example.mygateway.filters.FilterOrderType.PRE;
 import static java.lang.String.format;
 
 @Slf4j
@@ -48,6 +47,6 @@ public class CorrelationTrackingPreFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return PRE.getOrder();
+        return FilterOrderType.PRE.getOrder();
     }
 }

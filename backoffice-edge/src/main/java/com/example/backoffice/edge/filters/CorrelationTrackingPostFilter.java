@@ -1,4 +1,4 @@
-package com.example.mygateway.filters;
+package com.example.backoffice.edge.filters;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -10,8 +10,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
-
-import static com.example.mygateway.filters.FilterOrderType.POST;
 
 @Slf4j
 @Component
@@ -36,6 +34,6 @@ public class CorrelationTrackingPostFilter  implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return POST.getOrder();
+        return FilterOrderType.POST.getOrder();
     }
 }

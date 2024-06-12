@@ -1,4 +1,4 @@
-package com.example.mygateway.config;
+package com.example.backoffice.edge.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;

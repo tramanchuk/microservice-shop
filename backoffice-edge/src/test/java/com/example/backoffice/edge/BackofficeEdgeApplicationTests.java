@@ -1,10 +1,10 @@
-package com.example.mygateway;
+package com.example.backoffice.edge;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MyGatewayApplicationTests {
+class BackofficeEdgeApplicationTests {
 
 	@Test
 	void contextLoads() {
