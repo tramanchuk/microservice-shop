@@ -12,15 +12,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
-//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import io.vavr.control.Try;
@@ -80,6 +75,7 @@ public class ProductController {
     @Loggable
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ProductDto createProduct(@RequestBody ProductDto productDto){
         Product product = this.productConverter.convert(productDto);
         this.productFacade.save(product);
@@ -100,16 +96,7 @@ public class ProductController {
         return getAllProducts();
     }
 
-    @GetMapping("/me")
-    public HashMap index() {
-        Jwt user = ((Jwt)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        return new HashMap(){{
-            put("hello", user.getClaimAsString("preferred_username"));
-            //put("your email is", user.getAttribute("email"));
-        }};
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @GetMapping("/protected/premium")
     public String premium(@AuthenticationPrincipal Jwt jwt) {
         return String.format("Hello, %s!", jwt.getClaimAsString("preferred_username"));
