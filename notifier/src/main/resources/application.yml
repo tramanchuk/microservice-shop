@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: notifier
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: tatsiana.ramanchuk@gmail.com
+    password: agnzpvzsdhghjjdk
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
