@@ -1,0 +1,24 @@
+#Launch a Kafka cluster with one Zookeeper and one Kafka broker. Add -d flag to run it in the background.
+docker-compose -f docker-compose-without-zookeeper.yml up -d
+
+#Verify that the services are up and running
+docker-compose ps
+
+docker-compose restart <image-name>
+
+#Control Center at http://localhost:9021
+
+#Kafka is going to be exposed on your computer at localhost:9092
+kafka-topics --bootstrap-server localhost:9092 //for kRAFT
+kafka-topics --zookeeper localhost:22181 // for kafka with zookeeper
+
+
+#войти в кафку для запуска команд
+docker exec -it kafka1 /bin/bash
+#выполнение кафка команд
+kafka-topics --version
+
+
+docker-compose -f zk-single-kafka-single.yml stop
+docker-compose -f zk-single-kafka-single.yml down
+

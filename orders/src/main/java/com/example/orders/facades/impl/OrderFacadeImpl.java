@@ -1,6 +1,8 @@
 package com.example.orders.facades.impl;
 
 import com.example.orders.facades.OrderFacade;
+import com.example.orders.kafka.OrderEvent;
+import com.example.orders.kafka.OrderEventProducer;
 import com.example.orders.model.Order;
 import com.example.orders.model.OrderLine;
 import com.example.orders.repo.OrderLineRepository;
@@ -14,15 +16,19 @@ import java.util.UUID;
 public class OrderFacadeImpl implements OrderFacade {
     private final OrderService orderService;
     private final OrderLineRepository orderLineRepository;
+    private final OrderEventProducer orderEventProducer;
 
-    public OrderFacadeImpl(OrderService orderService, OrderLineRepository orderLineRepository) {
+    public OrderFacadeImpl(OrderService orderService, OrderLineRepository orderLineRepository, OrderEventProducer orderEventProducer) {
         this.orderService = orderService;
         this.orderLineRepository = orderLineRepository;
+        this.orderEventProducer = orderEventProducer;
     }
 
     @Override
     public Order save(Order order) {
-        return this.orderService.save(order);
+        order = this.orderService.save(order);
+        this.orderEventProducer.sendOrderEvent(new OrderEvent(order.getId()));
+        return order;
     }
 
     @Override

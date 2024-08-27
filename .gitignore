@@ -4,3 +4,4 @@
 /logs
 /scripts/pgdata
 /products/my-tomcat/logs
+/scripts/db/pgdata

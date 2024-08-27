@@ -1,0 +1,2 @@
+#login to execure commands
+psql -h localhost -U upostgres -d shop-db
