@@ -24,10 +24,12 @@ public class OrderLine {
     String productId;
     @Column
     Integer quantity;
-
+    @Column
+    Double unitPrice;
+    @Column
+    Double discountPrice;
     @CreationTimestamp
     Date createdDate;
-
     @UpdateTimestamp
     Date lastUpdateDate;
 
@@ -35,5 +37,7 @@ public class OrderLine {
         this.id = id;
         this.productId = productId;
         this.quantity = quantity;
+        this.unitPrice = 10.0;
+        this.discountPrice = 1.0;
     }
 }

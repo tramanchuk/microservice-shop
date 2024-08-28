@@ -28,6 +28,11 @@ public class Order {
     @JoinColumn(name="order_id")
     List<OrderLine> lines;
 
+    @Column
+    Double deliveryPrice;
+    @Column
+    Double orderDiscountPrice;
+
     @CreationTimestamp
     Date createdDate;
 
@@ -38,5 +43,23 @@ public class Order {
         this.id = id;
         this.customerId = customerId;
         this.lines = lines;
+        this.deliveryPrice = 2.2;
+        this.orderDiscountPrice = 1.1;
+    }
+    public Double getSubtotalPrice(){
+        return this.lines.stream()
+                .mapToDouble(line -> line.getUnitPrice() * line.getQuantity())
+                .sum();
+    }
+    public Double getTotalDiscount(){
+        return getProductDiscountPrice() + this.orderDiscountPrice;
+    }
+    public Double getProductDiscountPrice(){
+        return this.lines.stream()
+                .mapToDouble(OrderLine::getDiscountPrice)
+                .sum();
+    }
+    public Double getTotalPrice(){
+        return getSubtotalPrice() + this.deliveryPrice - getTotalDiscount();
     }
 }

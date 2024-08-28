@@ -1,7 +1,7 @@
-package com.example.orders.converters;
+package com.example.web.converters;
 
 import com.example.orders.model.OrderLine;
-import com.example.orders.web.dto.OrderLineDto;
+import com.example.web.dto.OrderLineDto;
 import java.util.List;
 
 public interface OrderLineConverter {

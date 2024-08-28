@@ -1,11 +1,11 @@
-package com.example.orders.web;
+package com.example.web;
 
 import com.example.orders.config.logs.Loggable;
-import com.example.orders.converters.OrderConverter;
+import com.example.web.converters.OrderConverter;
 import com.example.orders.facades.OrderFacade;
 import com.example.orders.model.Order;
-import com.example.orders.web.dto.OrderFullDto;
-import com.example.orders.web.dto.OrderShortDto;
+import com.example.web.dto.OrderFullDto;
+import com.example.web.dto.OrderShortDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;

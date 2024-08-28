@@ -1,4 +1,4 @@
-package com.example.orders.web.dto;
+package com.example.web.dto;
 
 public interface OnPatchUpdate {
 }

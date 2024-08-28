@@ -1,10 +1,10 @@
-package com.example.orders.web;
+package com.example.web;
 
 import com.example.orders.config.logs.Loggable;
-import com.example.orders.converters.OrderLineConverter;
+import com.example.web.converters.OrderLineConverter;
 import com.example.orders.facades.OrderFacade;
 import com.example.orders.model.OrderLine;
-import com.example.orders.web.dto.OrderLineDto;
+import com.example.web.dto.OrderLineDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;

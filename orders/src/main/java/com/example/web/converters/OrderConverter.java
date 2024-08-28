@@ -1,8 +1,8 @@
-package com.example.orders.converters;
+package com.example.web.converters;
 
 import com.example.orders.model.Order;
-import com.example.orders.web.dto.OrderFullDto;
-import com.example.orders.web.dto.OrderShortDto;
+import com.example.web.dto.OrderFullDto;
+import com.example.web.dto.OrderShortDto;
 import java.util.List;
 
 public interface OrderConverter {

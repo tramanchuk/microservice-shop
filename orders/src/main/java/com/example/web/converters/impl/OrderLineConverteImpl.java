@@ -1,8 +1,8 @@
-package com.example.orders.converters.impl;
+package com.example.web.converters.impl;
 
-import com.example.orders.converters.OrderLineConverter;
+import com.example.web.converters.OrderLineConverter;
 import com.example.orders.model.OrderLine;
-import com.example.orders.web.dto.OrderLineDto;
+import com.example.web.dto.OrderLineDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,7 +12,13 @@ import java.util.stream.Collectors;
 public class OrderLineConverteImpl implements OrderLineConverter {
     @Override
     public OrderLineDto convert(OrderLine line) {
-        return new OrderLineDto(line.getId(), line.getProductId(), line.getQuantity());
+        return OrderLineDto.builder()
+                .id(line.getId())
+                .productId(line.getProductId())
+                .quantity(line.getQuantity())
+                .discountPrice(line.getDiscountPrice())
+                .unitPrice(line.getUnitPrice())
+                .build();
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.example.orders.facades.impl;
 
 import com.example.orders.facades.OrderFacade;
-import com.example.kafka.OrderEvent;
 import com.example.kafka.OrderEventProducer;
 import com.example.orders.model.Order;
 import com.example.orders.model.OrderLine;
@@ -27,7 +26,7 @@ public class OrderFacadeImpl implements OrderFacade {
     @Override
     public Order save(Order order) {
         order = this.orderService.save(order);
-        this.orderEventProducer.sendOrderEvent(new OrderEvent(order.getId()));
+        this.orderEventProducer.sendOrderEvent(order);
         return order;
     }
 
