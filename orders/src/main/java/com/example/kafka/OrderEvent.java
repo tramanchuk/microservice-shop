@@ -1,4 +1,4 @@
-package com.example.orders.kafka;
+package com.example.kafka;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

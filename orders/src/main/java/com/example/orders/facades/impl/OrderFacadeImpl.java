@@ -1,8 +1,8 @@
 package com.example.orders.facades.impl;
 
 import com.example.orders.facades.OrderFacade;
-import com.example.orders.kafka.OrderEvent;
-import com.example.orders.kafka.OrderEventProducer;
+import com.example.kafka.OrderEvent;
+import com.example.kafka.OrderEventProducer;
 import com.example.orders.model.Order;
 import com.example.orders.model.OrderLine;
 import com.example.orders.repo.OrderLineRepository;
