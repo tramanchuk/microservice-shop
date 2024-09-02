@@ -30,4 +30,4 @@ spring:
       sasl:
         mechanism: PLAIN
         jaas:
-          config: org.apache.kafka.common.security.plain.PlainLoginModule required username="demo" password="demo-password";
+          config: org.apache.kafka.common.security.plain.PlainLoginModule required username="order_reader" password="order_reader_password";
