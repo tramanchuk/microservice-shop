@@ -20,3 +20,14 @@ spring:
       properties:
         "[spring.json.value.default.type]": "com.example.kafka.dto.OrderDto"
         "[spring.json.trusted.packages]": "com.example.kafka.dto.*"
+    security:
+      protocol: SASL_PLAINTEXT
+    jaas:
+      enabled: true
+    properties:
+      security:
+        protocol: SASL_PLAINTEXT
+      sasl:
+        mechanism: PLAIN
+        jaas:
+          config: org.apache.kafka.common.security.plain.PlainLoginModule required username="demo" password="demo-password";
